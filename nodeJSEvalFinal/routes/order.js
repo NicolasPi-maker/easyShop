@@ -31,6 +31,22 @@ router.post('/', function(req, res){
                 CartId: cart.id,
                 user_address: data.address,
                 total_amount: productsPrice.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+            }).then((result)=> {
+                Cart.destroy({
+                    where: {
+                        UserId: user.id,
+                        CartId: cart.id,
+                    }
+                }).then((result) => {
+                    res.status(200);
+                    res.json('Commande créée');
+                }).catch((error) => {
+                    res.status(500);
+                    res.json('Impossible de supprimer le panier');
+                })
+            }).catch((error) => {
+                res.status(500);
+                res.json('Impossible de créer la commande');
             });
             res.status(200)
         }).catch((error) => {
