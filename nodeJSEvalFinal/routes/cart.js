@@ -8,6 +8,7 @@ const {authentificationMiddleWare} = require("../middlewares/auth");
 const {addProductToCart, updateStock} = require("../utils/Cart/manageCart");
 router.use(authentificationMiddleWare);
 
+// Get cart by id and by user owner
 router.get('/:id', function(req, res){
     const user = req.user;
     let cartId = req.params.id;
@@ -48,22 +49,27 @@ router.get('/:id', function(req, res){
     }
 });
 
+// Create cart and add product to cart
 router.post('/', function(req, res){
     const user = req.user;
     const data = req.body;
     try {
         (async() => {
+            // Check if user has a cart
             await Cart.findOne({
                 where: {
                     UserId: user.id
                 },
             }).then((cart) => {
                 if(cart) {
+                    // add product to cart
                     addProductToCart(cart, data).then((result) => {
+                        // Update stock
                         updateStock(data, res);
                     });
                 } else {
                     (async () => {
+                        // Create cart if user has no cart
                         await Cart.create({
                             UserId: user.id
                         }).then((cart) => {
@@ -84,6 +90,7 @@ router.post('/', function(req, res){
     }
 });
 
+// delete cart
 router.delete('/:id', function(req, res){
     let cartId = req.params.id;
     const user = req.user;

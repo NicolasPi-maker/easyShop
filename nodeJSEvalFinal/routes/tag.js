@@ -5,6 +5,7 @@ const router = express.Router();
 // Par défaut, require ira chercher le fichier index.js
 const { Tag } = require('../models');
 
+// Get all tags
 router.get('/', function(req, res){
     try {
         (async() => {
@@ -25,6 +26,7 @@ router.get('/', function(req, res){
     }
 });
 
+// Get tag by id
 router.get('/:id', function(req, res){
     let tagId = req.params.id;
     if(!tagId) {
@@ -55,6 +57,7 @@ router.get('/:id', function(req, res){
     }
 });
 
+// Create tag
 router.post('/', function(req, res){
     const data = req.body;
     if(data) {
@@ -80,6 +83,7 @@ router.post('/', function(req, res){
     }
 });
 
+// Update tag
 router.patch('/:id', function(req, res){
     let tagId = req.params.id;
     const datas = req.body;
@@ -105,6 +109,7 @@ router.patch('/:id', function(req, res){
     }
 });
 
+// Delete tag
 router.delete('/:id', function(req, res){
     let tagId = req.params.id;
     if(tagId) {

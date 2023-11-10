@@ -5,6 +5,7 @@ const router = express.Router();
 // Par défaut, require ira chercher le fichier index.js
 const { Role } = require('../models');
 
+// Get all roles
 router.get('/', function(req, res){
     try {
         (async() => {
@@ -25,6 +26,7 @@ router.get('/', function(req, res){
     }
 });
 
+// Get role by id
 router.get('/:id', function(req, res){
     let roleId = req.params.id;
     if(!roleId) {
@@ -55,6 +57,7 @@ router.get('/:id', function(req, res){
     }
 });
 
+// Create role
 router.post('/', function(req, res){
     const datas = req.body;
     if(datas) {
@@ -80,6 +83,7 @@ router.post('/', function(req, res){
     }
 });
 
+// Update role
 router.patch('/:id', function(req, res){
     let roleId = req.params.id;
     const datas = req.body;
@@ -105,6 +109,7 @@ router.patch('/:id', function(req, res){
     }
 });
 
+// Delete role
 router.delete('/:id', function(req, res){
     let roleId = req.params.id;
     if(roleId) {

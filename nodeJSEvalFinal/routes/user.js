@@ -15,6 +15,8 @@ function generateToken(id, sessionType) {
     }
     return jwt.sign({id:id}, process.env.JWT_SECRET, {expiresIn: '1h'});
 }
+
+// Get all users with role
 router.get('/', function(req, res){
     try {
         (async() => {
@@ -43,6 +45,7 @@ router.get('/', function(req, res){
     }
 });
 
+// Get user by id
 router.get('/:id', function(req, res){
     let userId = req.params.id;
     try {
@@ -70,10 +73,7 @@ router.get('/:id', function(req, res){
     }
 });
 
-router.post('/', function(req, res){
-   let data = req.body;
-});
-
+// Create user account
 router.post('/signup', function(req, res, next) {
     let data = req.body;
     if(data.password.length > 8) {
@@ -85,6 +85,7 @@ router.post('/signup', function(req, res, next) {
                         email: data.email,
                         password: data.password,
                         display_name: data.display_name,
+                        // set default role to Customer
                         RoleId: 4
                     });
                 })().then((result) => {
@@ -106,6 +107,7 @@ router.post('/signup', function(req, res, next) {
     }
 });
 
+// Login user
 router.post('/login', function(req, res, next) {
     let data = req.body;
     try {

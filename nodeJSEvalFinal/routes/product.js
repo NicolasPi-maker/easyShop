@@ -6,8 +6,9 @@ const router = express.Router();
 const { Product, Tag} = require('../models');
 const {addTag} = require("../utils/productTagManager");
 const {Op, where} = require("sequelize");
-const {checkRole} = require("../middlewares/adminValidation");
+const {checkRole} = require("../middlewares/userAuthenticator");
 
+// Get all products
 router.get('/', function(req, res){
     const query = req.query;
     try {
@@ -61,6 +62,7 @@ router.get('/', function(req, res){
     }
 });
 
+// Get product by id
 router.get('/:id', function(req, res){
     let productId = req.params.id;
     try {
@@ -92,6 +94,7 @@ router.get('/:id', function(req, res){
     }
 });
 
+// Create product
 router.post('/', function(req, res){
     const data = req.body;
     if(data) {
@@ -104,6 +107,7 @@ router.post('/', function(req, res){
                     stock: data.stock,
                     image: data.image
                 }).then((result) => {
+                    // addTag function add tag or array of tags to product
                     addTag(data, result, res);
                 }).catch((error) => {
                     res.status(500);
@@ -120,6 +124,7 @@ router.post('/', function(req, res){
     }
 });
 
+// Update product
 router.patch('/:id', function(req, res){
     let productId = req.params.id;
     const datas = req.body;
@@ -149,6 +154,7 @@ router.patch('/:id', function(req, res){
     }
 });
 
+// Delete product
 router.delete('/:id', function(req, res){
     let productId = req.params.id;
     if(productId) {

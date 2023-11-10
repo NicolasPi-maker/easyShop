@@ -23,6 +23,7 @@ router.post('/', function(req, res){
             ]
         }).then((cart) => {
             let productsPrice = [];
+            // fill array with products price
             for(let product in cart.dataValues.Products) {
                 productsPrice.push(product.dataValues.price * product.dataValues.Product_Cart.quantity);
             }
@@ -30,8 +31,10 @@ router.post('/', function(req, res){
                 UserId: user.id,
                 CartId: cart.id,
                 user_address: data.address,
+                // reduce array to get total amount
                 total_amount: productsPrice.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
             }).then((result)=> {
+                // When order is created delete user cart
                 Cart.destroy({
                     where: {
                         UserId: user.id,
